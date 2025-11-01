@@ -56,7 +56,8 @@ function M.apply_colors()
 	local groups = M.groups
 
 	for i = 1, #groups.add do
-		api.nvim_set_hl(0, groups.add[i], {
+		print(groups.add[1])
+        api.nvim_set_hl(0, groups.add[i], {
 			fg = colors.add,
 			bold = bold.add,
 		})
@@ -93,9 +94,9 @@ end
 function M.setup(options)
     options = options or {}
 
-    M.bold = vim.tbl_deep_extend("force", M.bold, options.bold)
-    M.colors = vim.tbl_deep_extend("force", M.colors, options.colors)
-    M.groups = vim.tbl_deep_extend("force", M.groups, options.groups)
+    M.bold = vim.tbl_deep_extend("force", M.bold, options.bold or {})
+    M.colors = vim.tbl_deep_extend("force", M.colors, options.colors or {})
+    M.groups = vim.tbl_deep_extend("force", M.groups, options.groups or {})
 
 	M.apply_colors()
 
