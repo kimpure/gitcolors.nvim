@@ -93,9 +93,9 @@ end
 function M.setup(options)
     options = options or {}
 
-    vim.tbl_deep_extend("force", M.bold, options.bold)
-    vim.tbl_deep_extend("force", M.colors, options.colors)
-    vim.tbl_deep_extend("force", M.groups, options.groups)
+    M.bold = vim.tbl_deep_extend("force", M.bold, options.bold)
+    M.colors = vim.tbl_deep_extend("force", M.colors, options.colors)
+    M.groups = vim.tbl_deep_extend("force", M.groups, options.groups)
 
 	M.apply_colors()
 
