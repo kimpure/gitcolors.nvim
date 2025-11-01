@@ -43,5 +43,5 @@ end
 
 M.colors = colors
 
-return colors
+return M
 
