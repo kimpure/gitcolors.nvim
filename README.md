@@ -9,7 +9,37 @@
 ```lua
 return {
     "kimpure/gitcolors.nvim",
-    opts = {},
+    opts = {
+        colors = {
+            add = "#81b88b",
+            change = "#e2c08d",
+            delete = "#c74e39",
+            ignore = "#9d9d9d",
+        },
+        bold = {
+            add = false,
+            change = false,
+            delete = false,
+            ignore = false,
+        },
+        groups = {
+            add = {
+                "NvimTreeGitNew",
+                "GitSignsAddInline",
+            },
+            change = {
+                "NvimTreeGitDirty",
+                "GitSignsChangeInline",
+            },
+            delete = {
+                "NvimTreeGitDeleted",
+                "GitSignsDeleteInline",
+            },
+            ignore = {
+                "NvimTreeGitIgnored",
+            },
+        },
+    },
 }
 ```
 
