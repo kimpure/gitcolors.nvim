@@ -35,7 +35,10 @@ end
 function M.setup()
     M.apply_colors()
 
-    vim.api.nvim_create_autocmd({}, { callback = M.apply_colors })
+    vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "*",
+        callback =  M.apply_colors
+    })
 end
 
 M.colors = colors
