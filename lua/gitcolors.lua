@@ -56,7 +56,6 @@ function M.apply_colors()
 	local groups = M.groups
 
 	for i = 1, #groups.add do
-		print(groups.add[1])
         api.nvim_set_hl(0, groups.add[i], {
 			fg = colors.add,
 			bold = bold.add,
