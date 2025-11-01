@@ -1,38 +1,103 @@
 --- @class GitColors
 local M = {}
 
+--- @class GitColors.Groups
+--- @field add string[]
+--- @field change string[]
+--- @field delete string[]
+--- @field ignore string[]
+M.groups = {
+	add = {
+        "NvimTreeGitNew",
+        "GitSignsAddInline",
+    },
+	change = {
+        "NvimTreeGitDirty",
+        "GitSignsChangeInline",
+    },
+	delete = {
+        "NvimTreeGitDeleted",
+        "GitSignsDeleteInline",
+    },
+	ignore = {
+        "NvimTreeGitIgnored",
+    },
+}
+
 --- @class GitColors.Colors
 --- @field add string
 --- @field change string
 --- @field delete string
 --- @field ignore string
-local colors = {
+M.colors = {
 	add = "#81b88b",
 	change = "#e2c08d",
 	delete = "#c74e39",
 	ignore = "#9d9d9d",
 }
 
+--- @class GitColors.Bold
+--- @field add boolean
+--- @field change boolean
+--- @field delete boolean
+--- @field ignore boolean
+M.bold = {
+	add = false,
+	change = false,
+	delete = false,
+	ignore = false,
+}
+
 --- Apply colors
 function M.apply_colors()
-	vim.api.nvim_set_hl(0, "NvimTreeGitNew", { fg = colors.add, bold = false, cterm = nil })
-	vim.api.nvim_set_hl(0, "NvimTreeGitDirty", { fg = colors.change, bold = false, cterm = nil })
-	vim.api.nvim_set_hl(0, "NvimTreeGitDeleted", { fg = colors.delete, bold = false, cterm = nil })
-	vim.api.nvim_set_hl(0, "NvimTreeGitIgnored", { fg = colors.ignore })
+	local api = vim.api
+    local bold = M.bold
+	local colors = M.colors
+	local groups = M.groups
 
-	vim.api.nvim_set_hl(0, "NvimTreeFileIcon", { bold = false })
-	vim.api.nvim_set_hl(0, "NvimTreeFileName", { bold = false })
-	vim.api.nvim_set_hl(0, "NvimTreeFolderName", { bold = false })
-	vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName", { bold = false })
+	for i = 1, #groups.add do
+		api.nvim_set_hl(0, groups.add[i], {
+			fg = colors.add,
+			bold = bold.add,
+		})
+	end
 
-	vim.api.nvim_set_hl(0, "Directory", { bold = false })
+    for i = 1, #groups.change do
+		api.nvim_set_hl(0, groups.change[i], {
+			fg = colors.change,
+			bold = bold.change,
+		})
+	end
 
-	vim.api.nvim_set_hl(0, "GitSignsChangeInline", { reverse = true, bg = colors.change })
-	vim.api.nvim_set_hl(0, "GitSignsAddInline", { reverse = true, bg = colors.add })
-	vim.api.nvim_set_hl(0, "GitSignsDeleteInline", { reverse = true, bg = colors.delete })
+    for i = 1, #groups.delete do
+		api.nvim_set_hl(0, groups.delete[i], {
+			fg = colors.delete,
+			bold = bold.delete,
+		})
+	end
+
+    for i = 1, #groups.ignore do
+		api.nvim_set_hl(0, groups.ignore[i], {
+			fg = colors.ignore,
+			bold = bold.ignore,
+		})
+	end
 end
 
-function M.setup()
+--- @class GitColors.Options
+--- @field bold? GitColors.Bold
+--- @field colors? GitColors.Colors
+--- @field groups? GitColors.Groups
+M.default = {
+    bold = M.bold,
+    colors = M.colors,
+    groups = M.groups,
+}
+
+--- @param options? GitColors.Options
+function M.setup(options)
+    options = vim.tbl_deep_extend("force", M.default, options or {})
+
 	M.apply_colors()
 
 	vim.api.nvim_create_autocmd("ColorScheme", {
@@ -40,7 +105,5 @@ function M.setup()
 		callback = M.apply_colors,
 	})
 end
-
-M.colors = colors
 
 return M
