@@ -88,15 +88,14 @@ end
 --- @field bold? GitColors.Bold
 --- @field colors? GitColors.Colors
 --- @field groups? GitColors.Groups
-M.default = {
-    bold = M.bold,
-    colors = M.colors,
-    groups = M.groups,
-}
 
 --- @param options? GitColors.Options
 function M.setup(options)
-    options = vim.tbl_deep_extend("force", M.default, options or {})
+    options = options or {}
+
+    vim.tbl_deep_extend("force", M.bold, options.bold)
+    vim.tbl_deep_extend("force", M.colors, options.colors)
+    vim.tbl_deep_extend("force", M.groups, options.groups)
 
 	M.apply_colors()
 
